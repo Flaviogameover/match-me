@@ -11,6 +11,6 @@ export const Providers = ({children}: Props) => {
 		<NextUIProvider>
 			{children}
 		</NextUIProvider>
-	)
+	);
 
-}
+};
