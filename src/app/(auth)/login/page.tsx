@@ -1,8 +1,12 @@
+import {LoginForm} from "@/app/(auth)/_components/LoginForm";
+
 const LoginPage = () => {
 
 
 	return (
-		<div>LoginPage</div>
+		<div className="flex items-center justify-center vertical-center">
+			<LoginForm/>
+		</div>
 	);
 };
 

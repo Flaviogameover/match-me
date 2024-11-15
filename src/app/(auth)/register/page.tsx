@@ -1,8 +1,12 @@
+import {RegisterForm} from "@/app/(auth)/_components/RegisterForm";
+
 const RegisterPage = () => {
 
 
 	return (
-		<div>RegisterPage</div>
+		<div>
+			<RegisterForm/>
+		</div>
 	);
 };
 
