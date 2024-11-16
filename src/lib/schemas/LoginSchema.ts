@@ -1,8 +1,8 @@
 import {z} from "zod";
 
 export const loginSchema = z.object({
-	Email: z.string().email(),
-	Password: z.string().min(6,{
+	email: z.string().email(),
+	password: z.string().min(6,{
 		message: 'Password must be at least 6 characters',
 	})
 });

@@ -2,8 +2,11 @@ import {Button, Navbar, NavbarBrand, NavbarContent} from "@nextui-org/react";
 import Link from "next/link";
 import {GiSelfLove} from "react-icons/gi";
 import {NavLink} from "@/components/navbar/NavLink";
+import {auth} from "@/auth";
+import {UserMenu} from "@/components/navbar/UserMenu";
 
-export const TopNav = () => {
+export const TopNav = async () => {
+	const session = await auth();
 
 
 	return (
@@ -45,18 +48,30 @@ export const TopNav = () => {
 			<NavbarContent
 				justify={"end"}
 			>
-				<Button
-					as={Link}
-					href={"/login"}
-					variant={"bordered"}
-					className={"text-white"}
-				>Login</Button>
-				<Button
-					as={Link}
-					href={"/register"}
-					variant={"bordered"}
-					className={"text-white"}
-				>Register</Button>
+				{
+					session?.user ? (
+						<UserMenu user={session.user}/>
+					) : (
+						<>
+							<Button
+								as={Link}
+								href={"/login"}
+								variant={"bordered"}
+								className={"text-white"}
+							>
+								Login
+							</Button>
+							<Button
+								as={Link}
+								href={"/register"}
+								variant={"bordered"}
+								className={"text-white"}
+							>
+								Register
+							</Button>
+						</>
+					)
+				}
 			</NavbarContent>
 		</Navbar>
 	);

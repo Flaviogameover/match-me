@@ -3,16 +3,43 @@
 import {Button, Card, CardBody, CardHeader, Input} from "@nextui-org/react";
 import {GiPadlock} from "react-icons/gi";
 import {useForm} from "react-hook-form";
-import {zodResolver} from "@hookform/resolvers/zod";
-import {RegisterSchema, registerSchema} from "@/lib/schemas/RegisterSchema";
+import {registerUser} from "@/app/actions/authActions";
+import {RegisterSchema} from "@/lib/schemas/RegisterSchema";
+import {toast} from "react-toastify";
 
 export const RegisterForm = () => {
-	const {register, handleSubmit, formState: {isValid, errors,isSubmitting}} = useForm<RegisterSchema>({
-		resolver: zodResolver(registerSchema),
+	const {register, handleSubmit, setError, formState: {isValid, errors, isSubmitting}} = useForm<RegisterSchema>({
+		//resolver: zodResolver(registerSchema),
 		mode: "onTouched"
-		
+
 	});
-	const onSubmit = (data: RegisterSchema) => console.log(data);
+	const onSubmit = async (
+		data: RegisterSchema
+	) => {
+		const result = await registerUser(data);
+
+		if (result.status === "success") {
+			console.log("User registered successfully");
+			toast.success("User registered successfully");
+		} else {
+			if (Array.isArray(result.error)) {
+				result.error.forEach((e: any) => {
+					console.log("e::: ", e);
+					const fieldName = e.path.join(".") as
+						| "email"
+						| "name"
+						| "password";
+					setError(fieldName, {
+						message: e.message,
+					});
+				});
+			} else {
+				setError("root.serverError", {
+					message: result.error,
+				});
+			}
+		}
+	};
 	return (
 		<Card className="w-3/5 mx-auto">
 			<CardHeader className="flex flex-col items-center justify-center">
@@ -33,26 +60,26 @@ export const RegisterForm = () => {
 							defaultValue=""
 							label="Name"
 							variant="bordered"
-							{...register("Name")}
-							isInvalid={!!errors.Name}
-							errorMessage={errors.Name?.message as string}
+							{...register("name")}
+							isInvalid={!!errors.name}
+							errorMessage={errors.name?.message as string}
 						/>
 						<Input
 							defaultValue=""
 							label="Email"
 							variant="bordered"
-							{...register("Email")}
-							isInvalid={!!errors.Email}
-							errorMessage={errors.Email?.message as string}
+							{...register("email")}
+							isInvalid={!!errors.email}
+							errorMessage={errors.email?.message as string}
 						/>
 						<Input
 							defaultValue=""
 							label="Password"
 							variant="bordered"
 							type="password"
-							{...register("Password")}
-							isInvalid={!!errors.Password}
-							errorMessage={errors.Password?.message as string}
+							{...register("password")}
+							isInvalid={!!errors.password}
+							errorMessage={errors.password?.message as string}
 						/>
 						<Button
 							fullWidth

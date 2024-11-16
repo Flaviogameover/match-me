@@ -4,8 +4,8 @@ const RegisterPage = () => {
 
 
 	return (
-		<div>
-			<RegisterForm/>
+		<div className="flex items-center justify-center vertical-center">
+			<RegisterForm />
 		</div>
 	);
 };

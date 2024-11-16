@@ -1,16 +1,20 @@
 import {NextUIProvider} from "@nextui-org/react";
-import {ReactNode} from "react";
+import React, {ReactNode} from "react";
+import {ToastContainer} from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
-type Props = {
+export default function Providers({
+	                                  children,
+                                  }: {
 	children: ReactNode;
-}
-export const Providers = ({children}: Props) => {
-
-
+}) {
 	return (
 		<NextUIProvider>
+			<ToastContainer
+				position="bottom-right"
+				hideProgressBar
+			/>
 			{children}
 		</NextUIProvider>
 	);
-
-};
+}
