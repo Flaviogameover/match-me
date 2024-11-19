@@ -1,7 +1,7 @@
 import {ReactNode} from "react";
 import {getMemberByUserId} from "@/app/actions/memberActions";
 import {notFound} from "next/navigation";
-import {MemberSidebar} from "@/app/members/[userId]/_components/MemberSidebar";
+import {MemberSidebar} from "@/app/members/_components/MemberSidebar";
 import {Card} from "@nextui-org/react";
 
 const Layout = async ({children, params}: {
