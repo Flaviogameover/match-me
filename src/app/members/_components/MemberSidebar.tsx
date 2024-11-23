@@ -8,44 +8,33 @@ import React from "react";
 
 type Props = {
 	member: Member;
+	navLinks: {
+		name: string;
+		href: string;
+	}[];
 };
 
-export const MemberSidebar = ({member}: Props) => {
+export const MemberSidebar = ({member, navLinks}: Props) => {
 	const pathname = usePathname();
-	const basePath = `/members/${member.userId}`;
 
-	const navLinks = [
-		{
-			name: "Profile",
-			href: `${basePath}/profile`,
-		},
-		{
-			name: "Photos",
-			href: `${basePath}/photos`,
-		},
-		{
-			name: "Chat",
-			href: `${basePath}/chat`,
-		}
-	];
 
 	return (
 		<Card className={"w-full mt-10 items-center h-[80vh]"}>
 			<Image
 				height={200}
 				width={200}
-				src={member.image || "/images/user.png"}
+				src={member?.image || "/images/user.png"}
 				alt={"User profile main image"}
 				className={"rounded-full mt-6 aspect-square object-cover"}
 			/>
 			<CardBody>
 				<div className={"flex flex-col items-center"}>
 					<div className={"text-2xl"}>
-						{member.name},{" "}
-						{calculateAge(member.dateOfBirth)}
+						{member?.name},{" "}
+						{calculateAge(member?.dateOfBirth)}
 					</div>
 					<div className={"text-sm text-neutral-500"}>
-						{member.city}, {member.country}
+						{member?.city}, {member?.country}
 					</div>
 				</div>
 				<Divider className={"my-3"}/>

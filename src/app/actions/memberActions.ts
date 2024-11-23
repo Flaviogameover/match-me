@@ -28,7 +28,7 @@ export const getMembers = async () => {
 
 export const getMemberByUserId = async (userId: string) => {
 	try {
-		return prisma.member.findUnique({where: {userId}});
+		return (await prisma.member.findUnique({where: {userId}}));
 	} catch (e) {
 		console.log("[GET_MEMBER_BY_USERID]", e);
 	}
@@ -42,6 +42,6 @@ export const getMemberPhotosByUserId = async (userId: string) => {
 		}
 	});
 
-	if(!member) return null;
-	return member.photos.map(p=>p) as Photo[];
+	if (!member) return null;
+	return member.photos.map(p => p) as Photo[];
 };

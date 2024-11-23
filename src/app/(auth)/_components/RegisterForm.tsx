@@ -6,6 +6,7 @@ import {useForm} from "react-hook-form";
 import {registerUser} from "@/app/actions/authActions";
 import {RegisterSchema} from "@/lib/schemas/RegisterSchema";
 import {toast} from "react-toastify";
+import {handleFormServerErrors} from "@/lib/util";
 
 export const RegisterForm = () => {
 	const {register, handleSubmit, setError, formState: {isValid, errors, isSubmitting}} = useForm<RegisterSchema>({
@@ -22,22 +23,7 @@ export const RegisterForm = () => {
 			console.log("User registered successfully");
 			toast.success("User registered successfully");
 		} else {
-			if (Array.isArray(result.error)) {
-				result.error.forEach((e: any) => {
-					console.log("e::: ", e);
-					const fieldName = e.path.join(".") as
-						| "email"
-						| "name"
-						| "password";
-					setError(fieldName, {
-						message: e.message,
-					});
-				});
-			} else {
-				setError("root.serverError", {
-					message: result.error,
-				});
-			}
+			handleFormServerErrors(result, setError);
 		}
 	};
 	return (

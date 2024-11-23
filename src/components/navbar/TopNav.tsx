@@ -4,10 +4,11 @@ import {GiSelfLove} from "react-icons/gi";
 import {NavLink} from "@/components/navbar/NavLink";
 import {auth} from "@/auth";
 import {UserMenu} from "@/components/navbar/UserMenu";
+import {getUserInfoForNav} from "@/app/actions/userActions";
 
 export const TopNav = async () => {
 	const session = await auth();
-
+	const userInfo = session?.user && (await getUserInfoForNav());
 
 	return (
 		<Navbar className="bg-gradient-to-r from-pink-400 via-red-400 to-pink-600"
@@ -49,8 +50,8 @@ export const TopNav = async () => {
 				justify={"end"}
 			>
 				{
-					session?.user ? (
-						<UserMenu user={session.user}/>
+					userInfo ? (
+						<UserMenu userInfo={userInfo}/>
 					) : (
 						<>
 							<Button
