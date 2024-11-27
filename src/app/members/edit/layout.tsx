@@ -3,40 +3,36 @@ import {getMemberByUserId} from "@/app/actions/memberActions";
 import {MemberSidebar} from "@/app/members/_components/MemberSidebar";
 import {Card} from "@nextui-org/react";
 import {notFound} from "next/navigation";
+import {getAuthUserId} from "@/app/actions/authActions";
 
 const Layout = async ({children, params}: { children: ReactNode, params: { userId: string } }) => {
 
 
-	const member = await getMemberByUserId(
-		params.userId
-	);
+	const userId = await getAuthUserId();
 
-	console.log(member)
-
+	const member = await getMemberByUserId(userId);
 	if (!member) return notFound();
 
-	const basePath = `/members/${member.userId}`;
+	const basePath = `/members/edit`;
+
 	const navLinks = [
-		{name: "Profile", href: `${basePath}`},
+		{ name: "Edit Profile", href: `${basePath}` },
 		{
-			name: "Photos",
+			name: "Update Photos",
 			href: `${basePath}/photos`,
 		},
-		{name: "Chat", href: `${basePath}/chat`},
 	];
-	return (
-		<div
-			className={"grid grid-cols-12 gap-5 h-[80vh]"}>
-			<div
-				className={"col-span-3"}
-			>
-				<MemberSidebar member={member} navLinks={navLinks}/>
-			</div>
 
-			<div
-				className={"col-span-9"}
-			>
-				<Card className={"w-full mt-10 h-[80vh]"}>
+	return (
+		<div className="grid grid-cols-12 gap-5 h-[80vh]">
+			<div className="col-span-3">
+				<MemberSidebar
+					member={member}
+					navLinks={navLinks}
+				/>
+			</div>
+			<div className="col-span-9">
+				<Card className="w-full mt-10 h-[80vh]">
 					{children}
 				</Card>
 			</div>

@@ -27,8 +27,9 @@ export const getMembers = async () => {
 };
 
 export const getMemberByUserId = async (userId: string) => {
+
 	try {
-		return (await prisma.member.findUnique({where: {userId}}));
+		return prisma.member.findUnique({ where: { userId } })
 	} catch (e) {
 		console.log("[GET_MEMBER_BY_USERID]", e);
 	}
